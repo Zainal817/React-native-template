@@ -5,6 +5,9 @@ import {useNavigation} from '@react-navigation/core';
 import {useData, useTheme} from '../hooks';
 import * as regex from '../constants/regex';
 import {Block, Button, Input, Image, Text, Checkbox} from '../components';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { auth } from "../config/firebase-config";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 
 const isAndroid = Platform.OS === 'android';
 
@@ -42,11 +45,17 @@ const Login = () => {
     [setLogin],
   );
 
-  const handleLogin = useCallback(() => {
+  const handleLogin = useCallback(async () => {
     if (!Object.values(isValid).includes(false)) {
-      console.log('handleLogin', login);
-      // navigate inside app
-      navigation.navigate('Home');
+      
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, login.email, login.password);
+        console.log(userCredential.user)
+        // navigate inside app
+        navigation.navigate('Home');
+      } catch (err) {
+        console.log("Login error:", err.message);
+      }
     }
   }, [isValid, login]);
 

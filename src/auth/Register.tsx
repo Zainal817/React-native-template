@@ -5,6 +5,9 @@ import {useNavigation} from '@react-navigation/core';
 import {useData, useTheme} from '../hooks';
 import * as regex from '../constants/regex';
 import {Block, Button, Input, Image, Text, Checkbox} from '../components';
+import { auth } from "../config/firebase-config";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const isAndroid = Platform.OS === 'android';
 
@@ -45,10 +48,18 @@ const Register = () => {
     [setRegistration],
   );
 
-  const handleSignUp = useCallback(() => {
+  const handleSignUp = useCallback(async () => {
     if (!Object.values(isValid).includes(false)) {
       /** send/save registratin data */
       console.log('handleSignUp', registration);
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, registration.email, registration.password);
+        const token = await userCredential.user.getIdToken();
+        await AsyncStorage.setItem("userToken", token);
+      } catch(err) {
+        console.log(err)
+      }
     }
   }, [isValid, registration]);
 
@@ -179,7 +190,7 @@ const Register = () => {
                   autoCapitalize="none"
                   marginBottom={sizes.m}
                   label={'Username'}
-                  placeholder={'username'}
+                  placeholder={'Username'}
                   success={Boolean(registration.name && isValid.name)}
                   danger={Boolean(registration.name && !isValid.name)}
                   onChangeText={(value) => handleChange({name: value})}
