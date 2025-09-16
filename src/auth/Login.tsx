@@ -49,8 +49,8 @@ const Login = () => {
     if (!Object.values(isValid).includes(false)) {
       
       try {
-        const userCredential = await signInWithEmailAndPassword(auth, login.email, login.password);
-        console.log(userCredential.user)
+        // const userCredential = await signInWithEmailAndPassword(auth, login.email, login.password);
+        // console.log(userCredential.user)
         // navigate inside app
         navigation.navigate('Home');
       } catch (err) {
