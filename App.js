@@ -1,29 +1,35 @@
-import * as React from "react";
-import { Provider as PaperProvider, MD3LightTheme, MD3DarkTheme } from "react-native-paper";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useColorScheme } from "react-native";
-
+// App.tsx
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import Home from './src/auth/Home'; // Import your Home screen
 import LoginScreen from "./src/auth/Login";
 import RegisterScreen from "./src/auth/Register";
-import HomeScreen from "./src/auth/Home";
 
-const Stack = createNativeStackNavigator();
+import CustomDrawerContent from './src/navigation/CustomDrawerContent'; // Import the custom drawer content
 
-export default function App() {
-  const scheme = useColorScheme(); // detects light/dark
+const Drawer = createDrawerNavigator();
 
-  const theme = scheme === "dark" ? MD3DarkTheme : MD3LightTheme;
-
+function App() {
   return (
-    <PaperProvider theme={theme}>
-      <NavigationContainer theme={theme}>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="Register" component={RegisterScreen} />
-          <Stack.Screen name="Home" component={HomeScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </PaperProvider>
+    <NavigationContainer>
+      <Drawer.Navigator
+        initialRouteName="Home"
+        drawerType="slide" // Slide drawer for more natural drag effect
+        drawerStyle={{
+          backgroundColor: '#fff', // Customize your drawer background
+          width: 250, // Set the width of the drawer
+        }}
+        gestureEnabled={true} // Enable gestures (dragging the sidebar)
+        drawerContent={(props) => <CustomDrawerContent {...props} />} // Custom Drawer
+      >
+        <Drawer.Screen name="Home" component={Home} />
+        <Drawer.Screen name="Login" component={LoginScreen} />
+        <Drawer.Screen name="Register" component={RegisterScreen} />
+        {/* Add more screens here */}
+      </Drawer.Navigator>
+    </NavigationContainer>
   );
 }
+
+export default App;
