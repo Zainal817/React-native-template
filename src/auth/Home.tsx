@@ -11,8 +11,6 @@ import {
   StyleSheet,
 } from 'react-native';
 
-const {width} = Dimensions.get('window');
-
 const features = [
   {id: '1', title: 'Discover', subtitle: 'Explore curated content', icon: null},
   {id: '2', title: 'Create', subtitle: 'Make something beautiful', icon: null},
