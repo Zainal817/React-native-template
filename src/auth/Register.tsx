@@ -98,7 +98,7 @@ const Register = () => {
                 transform={[{rotate: '180deg'}]}
               />
               <Text p white marginLeft={sizes.s}>
-                'Go Back'
+                Go Back
               </Text>
             </Button>
 
