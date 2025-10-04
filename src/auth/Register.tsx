@@ -103,7 +103,7 @@ const Register = () => {
             </Button>
 
             <Text h4 center white marginBottom={sizes.md}>
-              'Create an Account'
+              Create an Account
             </Text>
           </Image>
         </Block>
